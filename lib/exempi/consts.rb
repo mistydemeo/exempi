@@ -269,8 +269,10 @@ module Exempi
         @enum = enum
 
         def self.to_native(values, ctx)
-          if values.is_a? Symbol
-            Exempi.const_get(@enum)[values]
+          case values
+          when Symbol then Exempi.const_get(@enum)[values]
+          when Fixnum then values
+          when NilClass then 0
           else
             values.inject(0) {|mask, value| mask |= Exempi.const_get(@enum)[value]}
           end
