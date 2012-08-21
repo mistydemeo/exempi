@@ -282,4 +282,19 @@ module Exempi
       klass_name = enum.split("_").map {|str| str.capitalize}.join
       const_set klass_name, klass
     end
+
+  # Converts a bitfield into a hash of named options via bitwise AND.
+  # @param [Int] the bitfield integer
+  # @param [FFI::Enum] the enum with which to compare
+  # @return [Hash] a hash which includes symbol representations of the included options
+  def self.parse_bitmask int, enum
+    enum_hash = enum.to_hash
+    opt_hash = {}
+    enum_hash.each do |k,v|
+      short_opt = k.to_s.split("_")[2..-1].join("_").downcase.to_sym
+      opt_hash[short_opt] = ((int & v) == v)
+    end
+
+    opt_hash
+  end
 end
