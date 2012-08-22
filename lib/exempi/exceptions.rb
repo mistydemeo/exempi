@@ -5,7 +5,7 @@ module Exempi
   # when using Exempi functions. It allows the caller to specify an
   # error code (retrievable from xmp_get_error()), and provides a
   # method to retrieve the error name based on the code.
-  class ExempiError < RuntimeError
+  class ExempiError < StandardError
     attr :error_code
     def initialize error_code=0
       if !Exempi::ErrorCodes[error_code]
