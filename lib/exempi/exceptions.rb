@@ -14,6 +14,7 @@ module Exempi
       @error_code = error_code
     end
 
+    # @return [Symbol] Exempi's error string for this exception
     def xmp_error
       Exempi::ErrorCodes[@error_code]
     end
