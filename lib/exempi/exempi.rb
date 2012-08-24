@@ -42,6 +42,28 @@ module Exempi
   extend FFI::Library
   ffi_lib 'exempi'
 
+  # we redefine attach_function so we can wrap all of the C functions
+  class << self
+    def attach_function name, func, args, returns=nil, options={}
+      super
+      old_method = method(name)
+      define_singleton_method(name) do |*args|
+        shutup! { old_method.call(*args) }
+      end
+    end
+
+    protected
+
+    # Exempi spews stderr all over the place without giving you any way
+    # to quiet it! Boo!
+    def shutup!
+      IO.new(2).reopen(IO::NULL)
+      yield
+    ensure
+      IO.new(2).reopen(STDERR)
+    end
+  end
+
   # Init the library. Must be called before anything else
   attach_function :xmp_init, [  ], :bool
   attach_function :xmp_terminate, [  ], :void
