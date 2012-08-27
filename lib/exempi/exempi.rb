@@ -97,7 +97,7 @@ module Exempi
   # @param[out] file_format the detected file format. Pass NULL if not needed.
   # @param[out] handler_flags the format options like from %xmp_files_get_format_info.
   # @return false in case of error.
-  attach_function :xmp_files_get_file_info, [ :pointer, :pointer, XmpOpenFileOptions, XmpFileType, XmpFileFormatOptions ], :bool
+  attach_function :xmp_files_get_file_info, [ :pointer, :pointer, :pointer, :pointer, :pointer ], :bool
 
   # Free a XmpFilePtr
   # @param xf the file ptr. Cannot be NULL
