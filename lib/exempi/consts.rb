@@ -242,8 +242,8 @@ module Exempi
 
     # Creates an XmpDateTime struct using a Ruby DateTime object,
     # or a date string which is parseable by DateTime
-    # @param [DateTime, String] The date to convert
-    # @return [Exempi::XmpDateTime] An XmpDateTime struct
+    # @param [DateTime, String] source the date to convert
+    # @return [Exempi::XmpDateTime] an XmpDateTime struct
     def self.from_datetime source
       if source.is_a? String
         source = DateTime.new source
@@ -284,8 +284,8 @@ module Exempi
     end
 
   # Converts a bitfield into a hash of named options via bitwise AND.
-  # @param [Int] the bitfield integer
-  # @param [FFI::Enum] the enum with which to compare
+  # @param [Integer] int the bitfield integer
+  # @param [FFI::Enum] enum the enum with which to compare
   # @return [Hash] a hash which includes symbol representations of the included options
   def self.parse_bitmask int, enum
     enum_hash = enum.to_hash

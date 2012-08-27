@@ -85,7 +85,8 @@ module Exempi
   # Returns a symbol representing the XMP error for an int code.
   # Used with the output of Exempi.xmp_get_error
   # This is just a bit of sugar over Exempi::ErrorCodes[code]
-  # @param [Integer] integer error code; should be the output of Exempi.xmp_get_error
+  # @param [Integer] code integer error code; should be obtained from
+  #   Exempi.xmp_get_error
   def self.exception_for code
     if !ErrorCodes[code]
       raise ArgumentError, "#{error_code} is not an Exempi error code"
