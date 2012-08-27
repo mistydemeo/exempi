@@ -57,10 +57,12 @@ module Exempi
     # Exempi spews stderr all over the place without giving you any way
     # to quiet it! Boo!
     def shutup!
-      IO.new(2).reopen(IO::NULL)
+      io = IO.new 2
+      stderr = io.dup
+      io.reopen IO::NULL
       yield
     ensure
-      IO.new(2).reopen(STDERR)
+      io.reopen stderr
     end
   end
 
