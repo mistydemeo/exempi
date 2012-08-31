@@ -44,6 +44,9 @@ module Exempi
 
   # we redefine attach_function so we can wrap all of the C functions
   class << self
+    def verbose?; @verbose; end
+    attr_writer :verbose
+
     def attach_function name, func, args, returns=nil, options={}
       super
       old_method = method(name)
@@ -57,12 +60,14 @@ module Exempi
     # Exempi spews stderr all over the place without giving you any way
     # to quiet it! Boo!
     def shutup!
-      io = IO.new 2
-      stderr = io.dup
-      io.reopen IO::NULL
+      if not verbose?
+        io = IO.new 2
+        stderr = io.dup
+        io.reopen IO::NULL
+      end
       yield
     ensure
-      io.reopen stderr
+      io.reopen stderr unless verbose?
     end
   end
 
