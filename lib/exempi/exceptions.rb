@@ -19,4 +19,6 @@ module Exempi
       Exempi::ErrorCodes[@error_code]
     end
   end
+
+  class InvalidOptionError < StandardError; end
 end

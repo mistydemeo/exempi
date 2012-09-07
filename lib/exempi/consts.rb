@@ -34,6 +34,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 
+require 'exempi/exceptions'
+
 require 'date'
 require 'ffi'
 
@@ -270,10 +272,23 @@ module Exempi
 
         def self.to_native(values, ctx)
           case values
-          when Symbol then Exempi.const_get(@enum)[values]
+          when Symbol
+            val = Exempi.const_get(@enum)[values]
+            if not val
+              raise Exempi::InvalidOptionError,
+                "#{values} is not a valid option for #{@enum}"
+            else
+              val
+            end
           when Fixnum then values
           when NilClass then 0
           else
+            invalid_opt = values.find {|v| Exempi.const_get(@enum)[v].nil?}
+            if invalid_opt
+              raise Exempi::InvalidOptionError,
+                "#{invalid_opt} is not a valid option for #{@enum}"
+            end
+
             values.inject(0) {|mask, value| mask |= Exempi.const_get(@enum)[value]}
           end
         end
