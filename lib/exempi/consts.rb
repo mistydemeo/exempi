@@ -301,13 +301,19 @@ module Exempi
   # Converts a bitfield into a hash of named options via bitwise AND.
   # @param [Integer] int the bitfield integer
   # @param [FFI::Enum] enum the enum with which to compare
+  # @param [Boolean] short_name true to return shortened option names
   # @return [Hash] a hash which includes symbol representations of the included options
-  def self.parse_bitmask int, enum
+  def self.parse_bitmask int, enum, short_name=false
     enum_hash = enum.to_hash
     opt_hash = {}
     enum_hash.each do |k,v|
-      short_opt = k.to_s.split("_")[2..-1].join("_").downcase.to_sym
-      opt_hash[short_opt] = ((int & v) == v)
+      if short_name
+        option = k.to_s.split("_")[2..-1].join("_").downcase.to_sym
+      else
+        option = k
+      end
+
+      opt_hash[option] = ((int & v) == v)
     end
 
     opt_hash
