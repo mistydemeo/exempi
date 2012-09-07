@@ -246,7 +246,7 @@ module Exempi
     # @return [Exempi::XmpDateTime] an XmpDateTime struct
     def self.from_datetime source
       if source.is_a? String
-        source = DateTime.new source
+        source = DateTime.parse source
       end
 
       struct = self.new
