@@ -241,8 +241,10 @@ module Exempi
       sign = self[:tzSign] == :XMP_TZ_WEST ? '-' : '+'
       zone = "%s%02d:%02d" % [sign, self[:tzHour], self[:tzMinute]]
 
+      second = self[:second] + Rational(self[:nanoSecond],1000000000)
+
       DateTime.new self[:year], self[:month], self[:day], self[:hour],
-        self[:minute], self[:second], zone
+        self[:minute], second, zone
     end
 
     # Creates an XmpDateTime struct using a Ruby DateTime object,
@@ -258,6 +260,7 @@ module Exempi
       [:year, :month, :day, :hour, :minute, :second].each do |field|
         struct[field] = source.send field
       end
+      struct[:nanoSecond] = source.to_time.nsec
 
       match = source.zone.match /(?<sign>[-+]){1}(?<hour>\d\d){1}:(?<minute>\d\d){1}/
       if match
