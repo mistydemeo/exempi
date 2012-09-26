@@ -22,12 +22,14 @@ describe "DateTime struct wrapper" do
     date = Exempi::XmpDateTime.from_datetime today
 
     date[:year].must_equal 2012
+    date[:month].must_equal 9
+    date[:day].must_equal 7
   end
 
   it "should be able to translate XmpDateTime structs into DateTime objects" do
     today = DateTime.now
     date = Exempi::XmpDateTime.from_datetime today
 
-    date.to_datetime.strftime('%I:%M:%S %p').must_equal today.strftime('%I:%M:%S %p')
+    date.to_datetime.must_equal today
   end
 end
