@@ -238,8 +238,11 @@ module Exempi
     # Converts a XmpDateTime struct into a Ruby object
     # @return [DateTime] A new Ruby DateTime object
     def to_datetime
+      sign = self[:tzSign] == :XMP_TZ_WEST ? '-' : '+'
+      zone = "%s%02d:%02d" % [sign, self[:tzHour], self[:tzMinute]]
+
       DateTime.new self[:year], self[:month], self[:day], self[:hour],
-        self[:minute], self[:second], TzSignValues[self[:tzSign]]
+        self[:minute], self[:second], zone
     end
 
     # Creates an XmpDateTime struct using a Ruby DateTime object,
@@ -255,7 +258,17 @@ module Exempi
       [:year, :month, :day, :hour, :minute, :second].each do |field|
         struct[field] = source.send field
       end
-      struct[:tzSign] = Exempi::TzSignValues[source.offset.to_i]
+
+      match = source.zone.match /(?<sign>[-+]){1}(?<hour>\d\d){1}:(?<minute>\d\d){1}/
+      if match
+        if match[:sign] == '-' then struct[:tzSign] = -1
+        elsif match[:hour] == '00' && match[:minute] == '00' then struct[:tzSign] = 0
+        else struct[:tzSign] = 1
+        end
+
+        struct[:tzHour] = match[:hour].to_i
+        struct[:tzMinute] = match[:minute].to_i
+      end
 
       struct
     end
