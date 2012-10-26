@@ -33,16 +33,16 @@ describe "dataconverter helper" do
   it "should be able to translate integers into hashes of options" do
     hash = Exempi.parse_bitmask 0x00000060, Exempi::XMP_OPEN_FILE_OPTIONS
 
-    hash[:XMP_OPEN_USESMARTHANDLER].must_equal true
-    hash[:XMP_OPEN_USEPACKETSCANNING].must_equal true
-    hash[:XMP_OPEN_FORUPDATE].wont_equal true
+    assert hash[:XMP_OPEN_USESMARTHANDLER]
+    assert hash[:XMP_OPEN_USEPACKETSCANNING]
+    refute hash[:XMP_OPEN_FORUPDATE]
   end
 
   it "should optionally be able to return short option names" do
     hash = Exempi.parse_bitmask 0x00000060, Exempi::XMP_OPEN_FILE_OPTIONS, true
 
-    hash[:usesmarthandler].must_equal true
-    hash[:usepacketscanning].must_equal true
-    hash[:forupdate].wont_equal true
+    assert hash[:usesmarthandler]
+    assert hash[:usepacketscanning]
+    refute hash[:forupdate]
   end
 end
