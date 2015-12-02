@@ -1,5 +1,6 @@
 # These comments are taken from Exempi's xmp.h
 # 
+# Copyright (C) 2015 Misty De Meo
 # Copyright (C) 2012 Canadian Museum for Human Rights
 # Copyright (C) 2007-2008,2012 Hubert Figuiere
 # Copyright 2002-2007 Adobe Systems Incorporated

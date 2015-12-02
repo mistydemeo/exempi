@@ -1,5 +1,6 @@
 # Error values and comments are taken from Exempi's xmperrors.h
 # 
+# Copyright (C) 2015 Misty De Meo
 # Copyright (C) 2012 Canadian Museum for Human Rights
 # Copyright (C) 2007 Hubert Figuiere
 # Copyright 2002-2007 Adobe Systems Incorporated
