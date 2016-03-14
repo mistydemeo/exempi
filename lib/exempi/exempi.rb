@@ -45,10 +45,10 @@ module Exempi
 
   # we redefine attach_function so we can wrap all of the C functions
   class << self
-    def verbose?; @verbose; end
-    attr_writer :verbose
+    attr_accessor :verbose
+    alias_method :verbose?, :verbose
 
-    def attach_function name, func, args, returns=nil, options={}
+    def attach_function(name, func, arguments, returns=nil, options={})
       super
       old_method = method(name)
       define_singleton_method(name) do |*args|
