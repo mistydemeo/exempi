@@ -61,14 +61,17 @@ module Exempi
     # Exempi spews stderr all over the place without giving you any way
     # to quiet it! Boo!
     def shutup!
-      if not verbose?
+      unless verbose?
         io = IO.new 2
         stderr = io.dup
         io.reopen IO::NULL
       end
       yield
     ensure
-      io.reopen stderr unless verbose?
+      unless verbose?
+        io.reopen stderr
+        stderr.close
+      end
     end
   end
 
