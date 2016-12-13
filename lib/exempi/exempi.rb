@@ -49,7 +49,7 @@ module Exempi
     attr_writer :verbose
 
     def attach_function name, func, args, returns=nil, options={}
-      super
+      super(name, func, args, returns, options)
       old_method = method(name)
       define_singleton_method(name) do |*args|
         shutup! { old_method.call(*args) }
@@ -82,8 +82,8 @@ module Exempi
   attach_function :xmp_get_error, [  ], :int
 
   attach_function :xmp_files_new, [  ], :pointer
-  attach_function :xmp_files_open_new, [ :string, XmpOpenFileOptions ], :pointer
-  attach_function :xmp_files_open, [ :pointer, :string, XmpOpenFileOptions ], :bool
+  attach_function :xmp_files_open_new, [ :string, XmpOpenFileOptions ], :pointer, {blocking: true}
+  attach_function :xmp_files_open, [ :pointer, :string, XmpOpenFileOptions ], :bool, {blocking: true}
 
   # Close an XMP file. Will flush the changes.
   # @param [FFI::Pointer, FFI::MemoryPointer] xf the file object
