@@ -45,11 +45,11 @@ module Exempi
 
   # we redefine attach_function so we can wrap all of the C functions
   class << self
-    def verbose?; @verbose; end
-    attr_writer :verbose
+    attr_accessor :verbose
+    alias_method :verbose?, :verbose
 
-    def attach_function name, func, args, returns=nil, options={}
-      super(name, func, args, returns, options)
+    def attach_function(name, func, arguments, returns=nil, options={})
+      super(name, func, arguments, returns, options)
       old_method = method(name)
       define_singleton_method(name) do |*args|
         shutup! { old_method.call(*args) }
@@ -61,14 +61,17 @@ module Exempi
     # Exempi spews stderr all over the place without giving you any way
     # to quiet it! Boo!
     def shutup!
-      if not verbose?
+      unless verbose?
         io = IO.new 2
         stderr = io.dup
         io.reopen IO::NULL
       end
       yield
     ensure
-      io.reopen stderr unless verbose?
+      unless verbose?
+        io.reopen stderr
+        stderr.close
+      end
     end
   end
 

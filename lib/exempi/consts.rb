@@ -263,7 +263,7 @@ module Exempi
       end
       struct[:nanoSecond] = source.to_time.nsec
 
-      match = source.zone.match /(?<sign>[-+]){1}(?<hour>\d\d){1}:(?<minute>\d\d){1}/
+      match = source.zone.match(/(?<sign>[-+]){1}(?<hour>\d\d){1}:(?<minute>\d\d){1}/)
       if match
         if match[:sign] == '-' then struct[:tzSign] = -1
         elsif match[:hour] == '00' && match[:minute] == '00' then struct[:tzSign] = 0
