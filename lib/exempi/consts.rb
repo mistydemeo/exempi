@@ -297,7 +297,7 @@ module Exempi
             else
               val
             end
-          when Fixnum then values
+          when Integer then values
           when NilClass then 0
           else
             invalid_opt = values.find {|v| Exempi.const_get(@enum)[v].nil?}
