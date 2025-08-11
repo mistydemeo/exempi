@@ -14,22 +14,22 @@ describe "DateTime struct wrapper" do
     today = DateTime.now
     date = Exempi::XmpDateTime.from_datetime today
 
-    date[:year].must_equal today.year
+    _(date[:year]).must_equal today.year
   end
 
   it "should be able to create an XmpDateTime struct from a string" do
     today = '2012-09-07'
     date = Exempi::XmpDateTime.from_datetime today
 
-    date[:year].must_equal 2012
-    date[:month].must_equal 9
-    date[:day].must_equal 7
+    _(date[:year]).must_equal 2012
+    _(date[:month]).must_equal 9
+    _(date[:day]).must_equal 7
   end
 
   it "should be able to translate XmpDateTime structs into DateTime objects" do
     today = DateTime.now
     date = Exempi::XmpDateTime.from_datetime today
 
-    date.to_datetime.must_equal today
+    _(date.to_datetime).must_equal today
   end
 end

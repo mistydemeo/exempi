@@ -23,4 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'ffi', '>= 1.1.5'
 
   gem.add_development_dependency 'rake', '>= 0.9.2.2'
+  gem.add_development_dependency 'minitest', '~> 5.0'
 end
